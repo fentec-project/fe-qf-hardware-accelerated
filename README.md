@@ -17,7 +17,7 @@ We have implemented the HW/SW codesign accelerator on real hardware. We targeted
 The `fe-qf-hardware-accelerated` directory contains two sub-directories: 
 
 1. `hw_side_rtl`, which includes HDL source codes of different HW-side (i.e., FPGA side) IP-cores.
-2. `sw_side_c, which includes source codes of the SW side (i.e., ARM core in this case). 
+2. `sw_side_c`, which includes source codes of the SW side (i.e., ARM core in this case). 
 
 ## Instructions
 
@@ -32,7 +32,7 @@ The following describes the overall steps to build both HW and SW sides of the s
 5. (Re-)customize your Zynq UltraScale+ MPSoC IP-core. In this step for this work, you need to enable the S_AXI_HP0_FPD (i.e., a slave HP interface) and M_AXI_HPM0_FPD (i.e., a master GP interface) ports/interfaces with 128-bit width as well as PL_CLK, PL_RST, and PL_PS_IRQ (i.e., interrupt) signals. For the PL_CLK, you may enter 210 MHz as an initial HW-side clock frequency value.
 6. Add Xilinx dedicated IP-core (i.e., Xilinx IP sources in Vivado) to your block design including an AXI SmartConnect interconnect peripheral module for the HP interface of the Zynq processing system, an AXI interconnect peripheral module for the GP interface of the Zynq processing system, 17 AXI GPIO block with 32-bit data width, a processor system reset, two concatenation module (i.e., Concat IP) for interrupt and status signals, and an AXI-DMA IP-core. Both read and write channels of the AXI-DMA IP-core should be enabled with 128-bit data width.
 7. Add the generated and packed IP-cores to your block design in Vivado including instantiating 16 CP-cores, Mux-CP, DeMux-CP, GPM, GDM, Interface/Control unit.
-8. Run the automatic wiring and interconnecting option of Vivado and resolve the possible errors. In this step, you should use AXI-GPIO-0~15 for sending the command signals to the CP-Core-0~15 units, respectively. The AXI-GPIO-16 block should be used for receiving the concatenated status signals of the CP-cores. AXI-DMA module is connected to CP-cores and HP-interface through the Mux-CP, DeMux-CP, and AXI SmartConnect modules.
+8. Run the automatic wiring and interconnecting option of Vivado and resolve the possible errors. In this step, you should use AXI-GPIO-0 to AXI-GPIO-15 for sending the command signals to the CP-Core-0 to CP-Core-15 units, respectively. The AXI-GPIO-16 block should be used for receiving the concatenated status signals of the CP-cores. AXI-DMA module is connected to CP-cores and HP-interface through the Mux-CP, DeMux-CP, and AXI SmartConnect modules.
 9. After confirming all connections and IP-cores, validate your design in Vivado and solve the possible errors and warnings.
 10. Set Vivado's synthesis and implementation options for exploring high-performance explore options (high-speed implementation).
 11. Run synthesis and implementation steps and then, generate a bitstream for your HW (FPGA) side. In these steps, you may need to resolve the possible errors and/or warnings. After ending all steps, you can check the timing and utilization reports of the design in the Vivado tool.
